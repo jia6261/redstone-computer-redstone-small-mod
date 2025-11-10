@@ -1,0 +1,31 @@
+modLoader="javafml"
+loaderVersion="[47,)"
+issueTrackerURL="https://github.com/jia6261/redstone-computer-redstone-small-mod/issues"
+license="All Rights Reserved"
+
+[[mods]]
+modId="redstone_computer"
+version="${file.jar.version}"
+displayName="Redstone Computer Mod"
+# The mod's logo file
+logoFile="redstone_computer_logo.png"
+credits="The original idea from jia6261"
+authors="jia6261"
+description='''
+A Minecraft mod based on the "Virtual Machine Computer and Redstone Shrinker World" design proposal.
+It introduces a craftable computer that can interact with real-world virtual machines and a "Redstone Shrinker" item to access a micro-redstone circuit dimension.
+'''
+
+[[dependencies.redstone_computer]]
+modId="forge"
+mandatory=true
+versionRange="[47,)"
+ordering="NONE"
+side="BOTH"
+
+[[dependencies.redstone_computer]]
+modId="minecraft"
+mandatory=true
+versionRange="[1.20.1,1.21)"
+ordering="NONE"
+side="BOTH"

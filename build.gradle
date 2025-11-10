@@ -1,0 +1,74 @@
+buildscript {
+    repositories {
+        maven { url = 'https://files.minecraftforge.net/maven/' }
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'net.minecraftforge.gradle:ForgeGradle:6.0.13'
+    }
+}
+
+apply plugin: 'net.minecraftforge.gradle'
+apply plugin: 'eclipse'
+apply plugin: 'maven-publish'
+
+version = '1.0.0'
+group = 'com.jia6261.redstonecomputer'
+archivesBaseName = 'redstone_computer'
+
+// Minecraft version and Forge version
+minecraft {
+    // The target version of Minecraft to build for.
+    refmap = 'redstone_computer.refmap.json'
+    runsDir = 'runs'
+    mappings = 'official'
+    
+    // Use a stable version like 1.20.1
+    // The official mappings are preferred for modern modding.
+    // The version of the mappings to use.
+    // This is for Minecraft 1.20.1
+    version = '1.20.1'
+}
+
+dependencies {
+    // Specify the version of Forge to use.
+    // This is for Minecraft 1.20.1
+    minecraft 'net.minecraftforge:forge:1.20.1-47.2.0'
+}
+
+// Configure the jar file name
+jar {
+    manifest {
+        attributes([
+            "Specification-Title": "Redstone Computer Mod",
+            "Specification-Vendor": "jia6261",
+            "Specification-Version": "1",
+            "Implementation-Title": project.name,
+            "Implementation-Version": project.version,
+            "Implementation-Vendor": "jia6261",
+            "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
+        ])
+    }
+    // Make sure the mod is packaged correctly
+    from(sourceSets.main.resources) {
+        include 'pack.mcmeta'
+        include 'logo.png'
+    }
+}
+
+// Configure the sources jar
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+}
+
+// Publishing configuration (optional, but good practice)
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            artifact jar
+        }
+    }
+    repositories {
+        // Add your publishing repositories here
+    }
+}

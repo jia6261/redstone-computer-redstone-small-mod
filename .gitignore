@@ -1,0 +1,21 @@
+# Gradle files
+.gradle/
+build/
+.DS_Store
+.idea/
+.vscode/
+*.iml
+*.ipr
+*.iws
+/runs/
+/local/
+/out/
+/libs/
+/versions/
+/tmp/
+/logs/
+/bin/
+/eclipse/
+/settings/
+/src/main/resources/assets/redstone_computer/lang/en_us.json
+/src/main/resources/assets/redstone_computer/lang/zh_cn.json
