@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "PPP",
+    "P P",
+    "PPP"
+  ],
+  "key": {
+    "P": {
+      "item": "redstone_computer:cardboard"
+    }
+  },
+  "result": {
+    "item": "redstone_computer:cardboard_box",
+    "count": 1
+  }
+}

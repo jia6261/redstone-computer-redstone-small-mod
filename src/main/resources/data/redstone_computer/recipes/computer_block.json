@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "BBB",
+    "CMC",
+    "BBB"
+  ],
+  "key": {
+    "B": {
+      "item": "redstone_computer:cardboard_box"
+    },
+    "C": {
+      "item": "redstone_computer:computer_chip"
+    },
+    "M": {
+      "item": "redstone_computer:computer_motherboard"
+    }
+  },
+  "result": {
+    "item": "redstone_computer:computer_block",
+    "count": 1
+  }
+}
