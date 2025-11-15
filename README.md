@@ -1,117 +1,99 @@
-# Minecraft Java 模组策划案：虚拟机电脑与红石缩小器世界
+Redstone-Small Computer Mod 是一个允许玩家在《我的世界》中制作电脑、搭建服务器，并与现实中的虚拟机互动的创新模组。
+通过探索、合成与科技玩法，你可以在游戏世界中构建属于自己的计算机网络。
 
-## 背景故事
+Redstone-Small Computer Mod allows players to build computers, create servers, and interact with real-world virtual machines directly from Minecraft.
+Explore, craft, and develop your own in-game computing network.
 
-遥远的未知世界边境隐藏着一座上古科技秘密基地，传说这里曾是虚拟生命与智能感知的实验场。几百年前，一批理想主义的红石工程师在此研发出能连接“数字虚空”的神秘芯片和缩微红石器材。  
-据说，这些芯片蕴藏着将现实与虚拟融为一体的力量，而红石缩小器材则能打开微型红石空间，使红石信号在更高维度自由流转。  
-如今，科学与魔法共存的村民们偶尔能发现神秘遗迹的线索，少数智者掌握着通往基地的地图，愿意与勇敢的冒险者交易。  
-玩家扮演的年轻红石学者，为了实现智能电脑的梦想和建造世界级服务器，踏上追寻上古基地之旅。只有找到隐藏在边境的遗迹，获得芯片与缩小器材，才能开启通道，与现实中的虚拟机互动，构筑属于自己的科技传奇。
+⸻
 
----
+🧭 Gameplay Features 玩法特点
 
-## 一、核心玩法概述
+🔹 1. Chip Hunting at the World Border
 
-玩家目标是在 Minecraft 世界自制一台电脑。电脑制作依赖于稀有芯片（需前往世界边境秘密基地获取），并整合纸、粘液球、铜锭及纸盒等物品的合成工艺。电脑可与现实中的虚拟机互动，若制作出多台电脑还能组建服务器、在 MC 存档内搭建网站。此外还添加红石缩小器材，解锁微型红石元件玩法，让电路设计更加精密。
+🔹 1. 前往世界边境寻找芯片
 
----
+每个存档（世界）中只有一个 秘密基地，位于世界边缘，玩家必须找到这里来获取制作电脑必需的 芯片（共 5 个）。
 
-## 二、秘密基地与稀有道具获取
+Each world generates one secret base at the world border.
+Players must locate it to obtain the five essential chips for computer crafting.
 
-- **电脑芯片**：只能在世界边境秘密基地获取，或者由村民出售芯片地图引导玩家前往。每个存档仅生成一个秘密基地，提升芯片珍贵性。
-- **红石缩小器材**：也只能在世界边境秘密基地获取，无法合成或通过村民交易获得。是进入红石缩小器世界和微型红石玩法的前置钥匙。
-- 村民新增职业，出售芯片地图，交易过程中会有线索提示。
+⸻
 
----
+🔹 2. Crafting the Computer
 
-## 三、电脑合成流程与物品表
+🔹 2. 合成电脑
 
-| 物品         | 材料                        | 说明                 |
-|--------------|---------------------------|----------------------|
-| 纸板         | 纸 ×1 + 粘液球 ×1           | 用于合成纸盒         |
-| 纸盒         | 纸板 ×5                    | 用于合成电脑         |
-| 电脑主板     | 铜锭 ×3 + 粘液球 ×1         | 用于合成电脑         |
-| 电脑         | 纸盒 ×1 + 芯片 ×1 + 主板 ×1 | 终极设备             |
-| 红石缩小器材 | 仅在秘密基地获取（不合成）  | 进入缩小器世界入口   |
+🧩 材料 Materials:
+	•	5 × 纸（Paper）
+	•	1 × 粘液球（Slimeball）
+	•	5 × 纸板（由纸 + 粘液球合成）
+	•	1 × 铜（Copper）
+	•	电脑芯片（从秘密基地获取）
 
----
+🛠️ 制作步骤 Crafting Steps:
+	1.	5 张纸 + 1 粘液球 → 纸板（共 5 块）
+	2.	5 纸板 → 纸盒（电脑外壳）
+	3.	粘液球 + 铜 → 电脑主板
+	4.	纸盒 + 主板 + 芯片 → 电脑（Computer）
 
-## 四、红石缩小器世界玩法
+⸻
 
-- 手持红石缩小器材点击时，可进入专属**红石缩小器世界（微型红石电路空间）**。
-- 世界内包含：
-  - **3个输入方块**：可在配置界面定制，将外部世界红石信号（坐标/方块）作为输入信号接入。
-  - **最多10个输出方块**：可在配置界面设置位置和数量，决定信号如何输出回外部世界并与外界红石系统联动。
-- 拥有完善的**配置界面（GUI）**，玩家可：
-  - 控制输入方块来源/类型
-  - 自定义输出方块在外部世界的坐标与数量
-  - 现场编辑电路布局、连线和逻辑
-- 支持**导入/导出专属 .gmcrs 文件**，实现电路设计一键复用与分享。  
-  - .gmcrs 文件格式为本模组自研，建议采取 JSON/NBT 数据结构，存储元件类型、坐标及连接关系等。
-  - 支持方案导入后自动生成电路布局，支持社区共享和编辑。
+🔹 3. Interactive Virtual Machine
 
----
+🔹 3. 与现实虚拟机互动
 
-## 五、微型红石元件及拓展
+借助前置模组，这台电脑可以直接与真实世界的虚拟机（Virtual Machine）互联、交换数据或进行功能协作。
 
-- 在缩小器世界里可以用微型红石元件（如微型红石粉、微型红石火把、微型活塞等），进行紧凑复杂的电路设计，满足高级自动化和红石逻辑控制需求。
-- 电路方案可保存为 .gmcrs 文件，导入/导出实现你的创意随时复用和分享。
+With a required dependency mod, the computer can interact with a real-world virtual machine, supporting data exchange and live communication.
 
----
+⸻
 
-## 六、电脑方块与虚拟机/服务器联动
+🔹 4. Build an In-Game Server
 
-- 放置电脑方块后可与现实主机虚拟机通信（如文件传输或 Socket 协议，需前置模组支持）。
-- 拥有 100 台电脑时可合成服务器方块，在 MC 存档里自建网站、网页应用。
-- 支持虚拟机与 MC 互动，开放高级玩法拓展空间。
+🔹 4. 在 Minecraft 内创建服务器
 
----
+如果你在游戏中拥有 100 台电脑，它们可以组合成一台大型 Minecraft 内服务器。
 
-## 七、开发建议与拓展玩法
+If you build 100 computers, they can combine into a large in-world server.
 
-- 世界生成器负责秘密基地唯一性与结构产出。
-- 所有物品/方块均需像素美术资源、物品栏图标、配方 JSON 注册。
-- 推荐 Forge/Fabric 实现，缩小器世界采用维度或虚拟空间建模，电路配置采用 GUI 可视化。
-- .gmcrs 文件格式可拓展版本号、元件类型与布局描述，建议同步开发编辑器。
-- 支持缩小器世界与电脑/服务器联动，实现多维红石互动与自动化应用。
+你甚至可以在服务器中搭建自己的网站，完全运行在你的存档里！
 
----
+You can even host websites inside your world-save server!
 
-## 八、合成流程与物品一览（基础参考）
+⸻
 
-```recipes
-# 纸板
-- 纸 ×1
-- 粘液球 ×1
+🔹 5. Villager Chip Map Trade
 
-# 纸盒
-- 纸板 ×5
+🔹 5. 村民出售“芯片地图”
 
-# 电脑主板
-- 铜锭 ×3
-- 粘液球 ×1
+特定村民可能会出售“芯片位置地图”，提示秘密基地大致方向，例如：
 
-# 电脑
-- 纸盒 ×1
-- 芯片 ×1
-- 电脑主板 ×1
+“从 (0,0) 朝某个方向走就能找到。”
 
-# 红石缩小器材
-- 仅在世界边境秘密基地获取，不可合成
+Certain villagers may sell a chip-location map showing the direction to the secret base, e.g.:
 
-# 微型红石元件
-- 只能在红石缩小器世界制造与摆放，不可在主世界直接获得
-```
+“Go forward from (0,0) in this direction.”
 
----
+⸻
 
-## 九、典型流程示例
+🔧 Required Dependency 前置模组
 
-1. 玩家在村民处买芯片地图→探索世界边境秘密基地→获得芯片和红石缩小器材。
-2. 通过常规合成制作主板、纸盒、电脑。
-3. 手持红石缩小器材进入缩小器世界，现场设计微型红石电路，导入 .gmcrs 设计图。
-4. 在配置界面自定义输入输出端，与 MC 世界红石装置互动。
-5. 制作多台电脑，合成服务器，实现存档网页功能。
+此模组需要一个关键前置模组来实现：
+	•	Minecraft ↔ Virtual Machine 双向通信
 
----
+A required dependency mod enables:
+	•	Two-way interaction between Minecraft and a real virtual machine
 
-如有需要，可继续补充具体功能实现、代码模板或详细编辑器方案！
+⸻
+
+🌐 Future Plans 未来计划
+	•	更多可升级的芯片等级
+	•	能源 / 电力系统支持（红石或电池）
+	•	数据备份设备
+	•	游戏内指令支持
+	•	更强的服务器功能
+	•	More chip tiers
+	•	Energy / power systems
+	•	Backup storage devices
+	•	In-game command controls
+	•	Advanced server expansion
