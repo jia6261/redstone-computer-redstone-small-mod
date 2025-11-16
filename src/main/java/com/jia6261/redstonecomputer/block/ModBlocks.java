@@ -5,7 +5,6 @@ import com.jia6261.redstonecomputer.item.ModItems;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
-import com.simibubi.create.content.kinetics.base.DirectionalKineticBlock;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -23,11 +22,15 @@ public class ModBlocks {
     // 电脑方块 (Computer Block)
     // 继承 DirectionalKineticBlock 以支持 Create Mod 动力
     public static final RegistryObject<Block> COMPUTER_BLOCK = registerBlock("computer_block",
-            () -> new DirectionalKineticBlock(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).strength(5.0f)));
+            () -> new ComputerBlock(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).strength(5.0f)));
 
     // 服务器方块 (Server Block) - 100台电脑合成
     public static final RegistryObject<Block> SERVER_BLOCK = registerBlock("server_block",
             () -> new Block(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).strength(8.0f)));
+
+    // 红石缩小器材方块 (Redstone Shrinker Block)
+    public static final RegistryObject<Block> REDSTONE_SHRINKER_BLOCK = registerBlock("redstone_shrinker_block",
+            () -> new ShrinkerBlock(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).strength(5.0f).noOcclusion()));
 
     // 辅助方法：注册方块及其对应的物品
     private static <T extends Block> RegistryObject<T> registerBlock(String name, Supplier<T> block) {
