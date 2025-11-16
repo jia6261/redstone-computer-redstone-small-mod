@@ -5,6 +5,7 @@ import com.jia6261.redstonecomputer.item.ModItems;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
+import com.simibubi.create.content.kinetics.base.DirectionalKineticBlock;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -20,8 +21,9 @@ public class ModBlocks {
 
     // 核心方块 (Core Blocks)
     // 电脑方块 (Computer Block)
+    // 继承 DirectionalKineticBlock 以支持 Create Mod 动力
     public static final RegistryObject<Block> COMPUTER_BLOCK = registerBlock("computer_block",
-            () -> new Block(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).strength(5.0f)));
+            () -> new DirectionalKineticBlock(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).strength(5.0f)));
 
     // 服务器方块 (Server Block) - 100台电脑合成
     public static final RegistryObject<Block> SERVER_BLOCK = registerBlock("server_block",

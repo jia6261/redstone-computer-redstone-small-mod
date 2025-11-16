@@ -12,6 +12,12 @@ apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
 version = '1.0.0'
 group = 'com.jia6261.redstonecomputer'
 archivesBaseName = 'redstone_computer'
@@ -19,21 +25,28 @@ archivesBaseName = 'redstone_computer'
 // Minecraft version and Forge version
 minecraft {
     // The target version of Minecraft to build for.
-    refmap = 'redstone_computer.refmap.json'
-    runsDir = 'runs'
-    mappings = 'official'
+
+
+
     
     // Use a stable version like 1.20.1
     // The official mappings are preferred for modern modding.
-    // The version of the mappings to use.
-    // This is for Minecraft 1.20.1
-    version = '1.20.1'
+
 }
 
 dependencies {
     // Specify the version of Forge to use.
     // This is for Minecraft 1.20.1
     minecraft 'net.minecraftforge:forge:1.20.1-47.2.0'
+    
+    // Add Create Mod dependency (Placeholder version)
+    // Note: The actual version must be compatible with 1.20.1 Forge.
+    // We use a placeholder version for compilation.
+    compileOnly fg.deobf("com.simibubi.create:create:1.20.1-0.5.1.f")
+    // Set the mapping channel and version globally for ForgeGradle 6
+    // This is the correct way for 1.20.1+
+    minecraft.mappingChannel = 'official'
+    minecraft.mappingVersion = '1.20.1'
 }
 
 // Configure the jar file name
@@ -50,10 +63,7 @@ jar {
         ])
     }
     // Make sure the mod is packaged correctly
-    from(sourceSets.main.resources) {
-        include 'pack.mcmeta'
-        include 'logo.png'
-    }
+
 }
 
 // Configure the sources jar

@@ -2,6 +2,9 @@ package com.jia6261.redstonecomputer;
 
 import com.jia6261.redstonecomputer.block.ModBlocks;
 import com.jia6261.redstonecomputer.item.ModItems;
+import com.jia6261.redstonecomputer.world.structure.ModStructures;
+import com.jia6261.redstonecomputer.world.structure.ModStructureTypes;
+import com.jia6261.redstonecomputer.block.ModBlockEntities;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
@@ -22,9 +25,12 @@ public class RedstoneComputer
     {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
-        // Register custom blocks and items
+        // Register custom blocks, items, and structures
         ModBlocks.register(modEventBus);
         ModItems.register(modEventBus);
+        ModBlockEntities.BLOCK_ENTITIES.register(modEventBus); // 注册方块实体
+        ModStructures.STRUCTURES.register(modEventBus);
+        ModStructureTypes.STRUCTURE_TYPES.register(modEventBus);
 
         // Register the mod event bus to the main event bus
         MinecraftForge.EVENT_BUS.register(this);
