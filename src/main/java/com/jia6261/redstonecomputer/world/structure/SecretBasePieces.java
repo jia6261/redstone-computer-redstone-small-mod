@@ -7,6 +7,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
+import net.minecraft.world.level.block.Rotation;
+import net.minecraft.world.level.block.Mirror;
 import com.jia6261.redstonecomputer.world.structure.ModStructurePieceTypes;
 import net.minecraft.world.level.levelgen.structure.pieces.StructurePiece;
 import net.minecraft.world.level.levelgen.structure.pieces.StructurePieceSerializationContext;
@@ -31,9 +33,9 @@ public class SecretBasePieces {
             this.templateLocation = templateLocation;
             this.position = pos;
 
-            // 实际应该在这里加载模板并设置 BoundingBox
-            // StructureTemplate template = templateManager.getOrCreate(templateLocation);
-            // this.boundingBox = template.getBoundingBox(pos, Rotation.NONE, Mirror.NONE);
+            // 实际加载模板并设置 BoundingBox
+            net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate template = templateManager.getOrCreate(templateLocation);
+            this.boundingBox = template.getBoundingBox(pos, net.minecraft.world.level.block.Rotation.NONE, net.minecraft.world.level.block.Mirror.NONE);
         }
 
         // 占位符构造函数，用于序列化
@@ -48,13 +50,17 @@ public class SecretBasePieces {
         public void postProcess(ServerLevelAccessor level, net.minecraft.world.level.levelgen.structure.Structure.GenerationContext context, Random random, BoundingBox box, ChunkPos chunkPos, BlockPos pos) {
             // 结构放置的核心逻辑
             StructureTemplateManager templateManager = level.getLevel().getStructureManager();
-            // StructureTemplate template = templateManager.getOrCreate(this.templateLocation);
+            net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate template = templateManager.getOrCreate(this.templateLocation);
 
             if (this.templateLocation.equals(new ResourceLocation(RedstoneComputer.MOD_ID, "secret_base"))) {
-                // 假设结构文件名为 secret_base.nbt
-                // 实际应该在这里放置结构
-                StructurePlaceSettings settings = new StructurePlaceSettings();
-                // template.placeInWorld(level, this.position, this.position, settings, random, 3);
+                StructurePlaceSettings settings = new StructurePlaceSettings(random.nextLong())
+                        .setRotation(net.minecraft.world.level.block.Rotation.NONE)
+                        .setMirror(net.minecraft.world.level.block.Mirror.NONE)
+                        .setBoundingBox(box)
+                        .setIgnoreEntities(false);
+
+                // 放置结构
+                template.placeInWorld(level, this.position, this.position, settings, random, 3);
             }
         }
     }
