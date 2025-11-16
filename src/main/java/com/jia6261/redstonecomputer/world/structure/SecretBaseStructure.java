@@ -2,7 +2,12 @@ package com.jia6261.redstonecomputer.world.structure;
 
 import com.mojang.serialization.Codec;
 import net.minecraft.world.level.levelgen.structure.Structure;
+import com.jia6261.redstonecomputer.world.structure.SecretBaseStart;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.level.levelgen.structure.StructureType;
+import net.minecraft.world.level.levelgen.structure.Structure.StructureStartFactory;
+import net.minecraft.world.level.levelgen.structure.StructureStart;
 
 // 秘密基地结构类
 public class SecretBaseStructure extends Structure {
@@ -20,6 +25,22 @@ public class SecretBaseStructure extends Structure {
         return ModStructureTypes.SECRET_BASE.get();
     }
 
-    // 结构生成的核心逻辑，这里只提供一个占位符
-    // 实际需要实现 get  GenerationContext, getStartFactory 等方法
+    @Override
+    public StructureStartFactory getStartFactory() {
+        return (context) -> {
+            // 检查是否在世界边境生成（简化为只生成一次）
+            // 实际的“世界边境”逻辑需要更复杂的坐标计算和生物群系检查
+            if (context.random().nextInt(1000) != 0) { // 极低概率生成
+                return new StructureStart(context.structure(), context.chunkPos(), 0, 0L);
+            }
+
+            BlockPos centerOfChunk = context.chunkPos().getMiddleBlockPosition(0);
+            BlockPos pos = new BlockPos(centerOfChunk.getX(), 0, centerOfChunk.getZ());
+
+            SecretBaseStart start = new SecretBaseStart(context.structure(), context.chunkPos(), 0, context.seed());
+            start.addPieces(context.structureTemplateManager(), pos);
+
+            return start;
+        };
+    }
 }
