@@ -28,13 +28,24 @@ public class SecretBaseStructure extends Structure {
     @Override
     public StructureStartFactory getStartFactory() {
         return (context) -> {
-            // 检查是否在世界边境生成（简化为只生成一次）
-            // 实际的“世界边境”逻辑需要更复杂的坐标计算和生物群系检查
-            if (context.random().nextInt(1000) != 0) { // 极低概率生成
+            // 检查是否在世界边境生成
+            // 简化：检查区块中心点到世界中心的距离
+            BlockPos centerOfChunk = context.chunkPos().getMiddleBlockPosition(0);
+            double distance = Math.sqrt(centerOfChunk.getX() * centerOfChunk.getX() + centerOfChunk.getZ() * centerOfChunk.getZ());
+
+            final int MIN_DISTANCE = 10000; // 最小生成距离
+            final int MAX_DISTANCE = 20000; // 最大生成距离
+            final int CHANCE = 500; // 1/500 的概率生成
+
+            if (distance < MIN_DISTANCE || distance > MAX_DISTANCE) {
                 return new StructureStart(context.structure(), context.chunkPos(), 0, 0L);
             }
 
-            BlockPos centerOfChunk = context.chunkPos().getMiddleBlockPosition(0);
+            // 在指定区域内，以极低概率生成
+            if (context.random().nextInt(CHANCE) != 0) {
+                return new StructureStart(context.structure(), context.chunkPos(), 0, 0L);
+            }
+
             BlockPos pos = new BlockPos(centerOfChunk.getX(), 0, centerOfChunk.getZ());
 
             SecretBaseStart start = new SecretBaseStart(context.structure(), context.chunkPos(), 0, context.seed());
