@@ -14,6 +14,12 @@ import net.minecraft.world.level.levelgen.structure.pieces.StructurePiece;
 import net.minecraft.world.level.levelgen.structure.pieces.StructurePieceSerializationContext;
 import net.minecraft.world.level.levelgen.structure.pieces.StructurePieceType;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.ChestBlockEntity;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.util.RandomSource;
+import com.jia6261.redstonecomputer.item.ModItems;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplateManager;
 
 import java.util.Random;
@@ -61,6 +67,22 @@ public class SecretBasePieces {
 
                 // 放置结构
                 template.placeInWorld(level, this.position, this.position, settings, random, 3);
+
+                // 注入稀有物品到箱子
+                BlockPos chestPos = this.position.offset(0, 1, 0); // 假设箱子在结构原点上方 (0, 1, 0)
+                BlockEntity blockEntity = level.getBlockEntity(chestPos);
+
+                if (blockEntity instanceof ChestBlockEntity chest) {
+                    RandomSource randomSource = RandomSource.create(context.seed());
+
+                    // 放置电脑芯片
+                    chest.setItem(randomSource.nextInt(chest.getContainerSize()), new ItemStack(ModItems.COMPUTER_CHIP.get(), 1));
+                    // 放置红石缩小器材
+                    chest.setItem(randomSource.nextInt(chest.getContainerSize()), new ItemStack(ModItems.REDSTONE_SHRINKER.get(), 1));
+                    // 放置一些额外的红石材料
+                    chest.setItem(randomSource.nextInt(chest.getContainerSize()), new ItemStack(Items.REDSTONE, 64));
+                    chest.setItem(randomSource.nextInt(chest.getContainerSize()), new ItemStack(Items.REPEATER, 8));
+                }
             }
         }
     }
