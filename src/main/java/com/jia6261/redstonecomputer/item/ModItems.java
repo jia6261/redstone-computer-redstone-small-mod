@@ -16,6 +16,16 @@ public class ModItems {
     public static final RegistryObject<Item> COMPUTER_CHIP = ITEMS.register("computer_chip",
             () -> new Item(new Item.Properties().stacksTo(1)));
 
+    // 多核芯片 (Multi-Core Chips)
+    public static final RegistryObject<Item> CHIP_1_CORE = ITEMS.register("chip_1_core",
+            () -> new Item(new Item.Properties().stacksTo(16)));
+    public static final RegistryObject<Item> CHIP_2_CORE = ITEMS.register("chip_2_core",
+            () -> new Item(new Item.Properties().stacksTo(16)));
+    public static final RegistryObject<Item> CHIP_3_CORE = ITEMS.register("chip_3_core",
+            () -> new Item(new Item.Properties().stacksTo(16)));
+    public static final RegistryObject<Item> CHIP_4_CORE = ITEMS.register("chip_4_core",
+            () -> new Item(new Item.Properties().stacksTo(16)));
+
     // 红石缩小器材 (Redstone Shrinker) - 稀有物品，用于进入缩小器世界
     public static final RegistryObject<Item> REDSTONE_SHRINKER = ITEMS.register("redstone_shrinker",
             () -> new Item(new Item.Properties().stacksTo(1)));

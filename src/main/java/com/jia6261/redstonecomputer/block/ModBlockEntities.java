@@ -32,6 +32,14 @@ public class ModBlockEntities {
                     BlockEntityType.Builder.of(LithographyMachineEntity::new,
                             ModBlocks.LITHOGRAPHY_MACHINE.get()).build(null));
 
+    public static <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockEntityType<T> type, BlockEntityType<?> expectedType) {
+        return level.isClientSide ? null : createTickerHelper(type, expectedType, LithographyMachineEntity::tick);
+    }
+
+    private static <T extends BlockEntity> BlockEntityTicker<T> createTickerHelper(BlockEntityType<T> type, BlockEntityType<?> expectedType, BlockEntityTicker<? super T> ticker) {
+        return expectedType == type ? (BlockEntityTicker<T>) ticker : null;
+    }
+
     public static void register(IEventBus eventBus) {
         BLOCK_ENTITIES.register(eventBus);
     }
