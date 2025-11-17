@@ -28,6 +28,19 @@ public class ModBlocks {
     public static final RegistryObject<Block> SERVER_BLOCK = registerBlock("server_block",
             () -> new Block(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).strength(8.0f)));
 
+    // 芯片生产设备 (Chip Production Devices)
+    // 精炼设备 (Refining Device) - 将玻璃精炼为单质硅
+    public static final RegistryObject<Block> REFINING_DEVICE = registerBlock("refining_device",
+            () -> new Block(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).strength(5.0f)));
+
+    // 硅晶圆加工机 (Silicon Wafer Fabricator) - 将单质硅加工为硅晶圆
+    public static final RegistryObject<Block> SILICON_WAFER_FABRICATOR = registerBlock("silicon_wafer_fabricator",
+            () -> new Block(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).strength(5.0f)));
+
+    // 光刻机 (Lithography Machine) - 将硅晶圆加工为高级芯片
+    public static final RegistryObject<Block> LITHOGRAPHY_MACHINE = registerBlock("lithography_machine",
+            () -> new Block(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).strength(10.0f)));
+
     // 红石缩小器材方块 (Redstone Shrinker Block)
     public static final RegistryObject<Block> REDSTONE_SHRINKER_BLOCK = registerBlock("redstone_shrinker_block",
             () -> new ShrinkerBlock(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).strength(5.0f).noOcclusion()));

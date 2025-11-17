@@ -14,11 +14,11 @@ public class ModItems {
     // 核心物品 (Core Items)
     // 电脑芯片 (Computer Chip) - 稀有物品
     public static final RegistryObject<Item> COMPUTER_CHIP = ITEMS.register("computer_chip",
-            () -> new Item(new Item.Properties()));
+            () -> new Item(new Item.Properties().stacksTo(1)));
 
     // 红石缩小器材 (Redstone Shrinker) - 稀有物品，用于进入缩小器世界
     public static final RegistryObject<Item> REDSTONE_SHRINKER = ITEMS.register("redstone_shrinker",
-            () -> new Item(new Item.Properties()));
+            () -> new Item(new Item.Properties().stacksTo(1)));
 
     // 合成中间件 (Crafting Intermediates)
     // 纸板 (Cardboard)
@@ -32,6 +32,14 @@ public class ModItems {
     // 电脑主板 (Computer Motherboard)
     public static final RegistryObject<Item> COMPUTER_MOTHERBOARD = ITEMS.register("computer_motherboard",
             () -> new Item(new Item.Properties()));
+
+    // 芯片生产材料 (Chip Production Materials)
+    public static final RegistryObject<Item> PURE_SILICON = ITEMS.register("pure_silicon",
+            () -> new Item(new Item.Properties()));
+    public static final RegistryObject<Item> SILICON_WAFER = ITEMS.register("silicon_wafer",
+            () -> new Item(new Item.Properties().stacksTo(16)));
+    public static final RegistryObject<Item> BLUEPRINT = ITEMS.register("blueprint",
+            () -> new Item(new Item.Properties().stacksTo(1)));
 
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);

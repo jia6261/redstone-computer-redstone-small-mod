@@ -72,6 +72,11 @@ public class SecretBasePieces {
                 BlockPos chestPos = this.position.offset(0, 1, 0); // 假设箱子在结构原点上方 (0, 1, 0)
                 BlockEntity blockEntity = level.getBlockEntity(chestPos);
 
+                // 放置光刻机 (Lithography Machine)
+                // 假设光刻机在结构原点上方 (0, 2, 0)
+                BlockPos machinePos = this.position.offset(0, 2, 0);
+                level.setBlock(machinePos, ModBlocks.LITHOGRAPHY_MACHINE.get().defaultBlockState(), 3);
+
                 if (blockEntity instanceof ChestBlockEntity chest) {
                     RandomSource randomSource = RandomSource.create(context.seed());
 

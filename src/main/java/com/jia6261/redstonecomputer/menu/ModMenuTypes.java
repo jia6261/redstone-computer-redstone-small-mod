@@ -19,6 +19,15 @@ public class ModMenuTypes {
     public static final RegistryObject<MenuType<ShrinkerMenu>> SHRINKER_MENU =
             registerMenuType("shrinker_menu", ShrinkerMenu::new);
 
+    public static final RegistryObject<MenuType<RefiningDeviceMenu>> REFINING_DEVICE_MENU =
+            registerMenuType("refining_device_menu", RefiningDeviceMenu::new);
+
+    public static final RegistryObject<MenuType<SiliconWaferFabricatorMenu>> SILICON_WAFER_FABRICATOR_MENU =
+            registerMenuType("silicon_wafer_fabricator_menu", SiliconWaferFabricatorMenu::new);
+
+    public static final RegistryObject<MenuType<LithographyMachineMenu>> LITHOGRAPHY_MACHINE_MENU =
+            registerMenuType("lithography_machine_menu", LithographyMachineMenu::new);
+
     // 占位符：红石缩小器材方块的 GUI
     // public static final RegistryObject<MenuType<ShrinkerMenu>> SHRINKER_MENU =
     //         registerMenuType("shrinker_menu", ShrinkerMenu::new);

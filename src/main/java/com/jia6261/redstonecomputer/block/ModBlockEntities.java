@@ -2,6 +2,7 @@ package com.jia6261.redstonecomputer.block;
 
 import com.jia6261.redstonecomputer.RedstoneComputer;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -15,6 +16,21 @@ public class ModBlockEntities {
             BLOCK_ENTITIES.register("computer_block_entity", () ->
                     BlockEntityType.Builder.of(ComputerBlockEntity::new,
                             ModBlocks.COMPUTER_BLOCK.get()).build(null));
+
+    public static final RegistryObject<BlockEntityType<RefiningDeviceEntity>> REFINING_DEVICE_ENTITY =
+            BLOCK_ENTITIES.register("refining_device_entity", () ->
+                    BlockEntityType.Builder.of(RefiningDeviceEntity::new,
+                            ModBlocks.REFINING_DEVICE.get()).build(null));
+
+    public static final RegistryObject<BlockEntityType<SiliconWaferFabricatorEntity>> SILICON_WAFER_FABRICATOR_ENTITY =
+            BLOCK_ENTITIES.register("silicon_wafer_fabricator_entity", () ->
+                    BlockEntityType.Builder.of(SiliconWaferFabricatorEntity::new,
+                            ModBlocks.SILICON_WAFER_FABRICATOR.get()).build(null));
+
+    public static final RegistryObject<BlockEntityType<LithographyMachineEntity>> LITHOGRAPHY_MACHINE_ENTITY =
+            BLOCK_ENTITIES.register("lithography_machine_entity", () ->
+                    BlockEntityType.Builder.of(LithographyMachineEntity::new,
+                            ModBlocks.LITHOGRAPHY_MACHINE.get()).build(null));
 
     public static void register(IEventBus eventBus) {
         BLOCK_ENTITIES.register(eventBus);
