@@ -1,0 +1,24 @@
+{
+  "type": "redstone_computer:redstone_shrinker_world",
+  "generator": {
+    "type": "minecraft:flat",
+    "settings": {
+      "biome": "minecraft:plains",
+      "layers": [
+        {
+          "height": 1,
+          "block": "minecraft:bedrock"
+        },
+        {
+          "height": 1,
+          "block": "minecraft:redstone_block"
+        },
+        {
+          "height": 1,
+          "block": "minecraft:glass"
+        }
+      ],
+      "structure_overrides": []
+    }
+  }
+}

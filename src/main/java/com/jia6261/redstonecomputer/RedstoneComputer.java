@@ -10,9 +10,13 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraft.client.gui.screens.MenuScreens;
 import com.jia6261.redstonecomputer.screen.ComputerScreen;
 import com.jia6261.redstonecomputer.screen.ShrinkerScreen;
+import com.jia6261.redstonecomputer.screen.RefiningDeviceScreen;
+import com.jia6261.redstonecomputer.screen.SiliconWaferFabricatorScreen;
+import com.jia6261.redstonecomputer.screen.LithographyMachineScreen;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
+import com.jia6261.redstonecomputer.world.dimension.ModDimensions;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,6 +41,7 @@ public class RedstoneComputer
         ModMenuTypes.MENUS.register(modEventBus); // 注册容器类型
         ModStructures.STRUCTURES.register(modEventBus);
         ModStructureTypes.STRUCTURE_TYPES.register(modEventBus);
+        ModDimensions.register();
 
         // Register the mod event bus to the main event bus
         MinecraftForge.EVENT_BUS.register(this);
@@ -49,6 +54,9 @@ public class RedstoneComputer
         event.enqueueWork(() -> {
             MenuScreens.register(ModMenuTypes.COMPUTER_MENU.get(), ComputerScreen::new);
             MenuScreens.register(ModMenuTypes.SHRINKER_MENU.get(), ShrinkerScreen::new);
+            MenuScreens.register(ModMenuTypes.REFINING_DEVICE_MENU.get(), RefiningDeviceScreen::new);
+            MenuScreens.register(ModMenuTypes.SILICON_WAFER_FABRICATOR_MENU.get(), SiliconWaferFabricatorScreen::new);
+            MenuScreens.register(ModMenuTypes.LITHOGRAPHY_MACHINE_MENU.get(), LithographyMachineScreen::new);
         });
     }
 }
