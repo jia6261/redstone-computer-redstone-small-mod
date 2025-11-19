@@ -3,6 +3,8 @@ package com.jia6261.redstonecomputer.block;
 import com.jia6261.redstonecomputer.RedstoneComputer;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -22,17 +24,25 @@ public class ModBlockEntities {
                     BlockEntityType.Builder.of(RefiningDeviceEntity::new,
                             ModBlocks.REFINING_DEVICE.get()).build(null));
 
+    public static <T extends BlockEntity> BlockEntityTicker<T> getRefiningTicker(Level level, BlockEntityType<T> type, BlockEntityType<?> expectedType) {
+        return level.isClientSide ? null : createTickerHelper(type, expectedType, RefiningDeviceEntity::tick);
+    }
+
     public static final RegistryObject<BlockEntityType<SiliconWaferFabricatorEntity>> SILICON_WAFER_FABRICATOR_ENTITY =
             BLOCK_ENTITIES.register("silicon_wafer_fabricator_entity", () ->
                     BlockEntityType.Builder.of(SiliconWaferFabricatorEntity::new,
                             ModBlocks.SILICON_WAFER_FABRICATOR.get()).build(null));
+
+    public static <T extends BlockEntity> BlockEntityTicker<T> getFabricatorTicker(Level level, BlockEntityType<T> type, BlockEntityType<?> expectedType) {
+        return level.isClientSide ? null : createTickerHelper(type, expectedType, SiliconWaferFabricatorEntity::tick);
+    }
 
     public static final RegistryObject<BlockEntityType<LithographyMachineEntity>> LITHOGRAPHY_MACHINE_ENTITY =
             BLOCK_ENTITIES.register("lithography_machine_entity", () ->
                     BlockEntityType.Builder.of(LithographyMachineEntity::new,
                             ModBlocks.LITHOGRAPHY_MACHINE.get()).build(null));
 
-    public static <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockEntityType<T> type, BlockEntityType<?> expectedType) {
+    public static <T extends BlockEntity> BlockEntityTicker<T> getLithographyTicker(Level level, BlockEntityType<T> type, BlockEntityType<?> expectedType) {
         return level.isClientSide ? null : createTickerHelper(type, expectedType, LithographyMachineEntity::tick);
     }
 
