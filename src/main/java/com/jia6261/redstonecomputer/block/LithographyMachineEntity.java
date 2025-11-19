@@ -1,35 +1,28 @@
 package com.jia6261.redstonecomputer.block;
 
+import com.jia6261.redstonecomputer.block.ModBlockEntities;
+import com.jia6261.redstonecomputer.block.BaseMachineBlockEntity;
+import com.jia6261.redstonecomputer.item.ModItems;
+import com.jia6261.redstonecomputer.menu.LithographyMachineMenu;
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.ContainerData;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.entity.BlockEntityTicker;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.core.Direction;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.ItemStackHandler;
-import net.minecraft.world.inventory.ContainerData;
-import net.minecraft.world.inventory.SimpleContainerData;
-import com.jia6261.redstonecomputer.item.ModItems;
+import org.jetbrains.annotations.Nullable;
 
 // 光刻机方块实体：用于处理硅晶圆加工为高级芯片的逻辑
-public class LithographyMachineEntity extends BlockEntity {
-    private final ItemStackHandler itemHandler = new ItemStackHandler(3); // 0: 输入硅晶圆, 1: 输入图纸, 2: 输出芯片
-    private LazyOptional<IItemHandler> lazyItemHandler = LazyOptional.empty();
-
-    private int progress = 0;
-    private int maxProgress = 0; // 10 minutes per core * 20 ticks/second * 60 seconds/minute = 12000 ticks per core
-
-    protected final ContainerData data;
+public class LithographyMachineEntity extends BaseMachineBlockEntity {
+    private int cores = 0; // 用于存储当前正在处理的芯片核心数
 
     public LithographyMachineEntity(BlockPos pos, BlockState state) {
-        super(ModBlockEntities.LITHOGRAPHY_MACHINE_ENTITY.get(), pos, state);
+        super(ModBlockEntities.LITHOGRAPHY_MACHINE_ENTITY.get(), pos, state, 3, 0); // 3 slots, maxProgress will be set dynamically
+        // 重新定义 data，因为 maxProgress 是动态的，需要双向同步
         this.data = new ContainerData() {
             @Override
             public int get(int index) {
@@ -56,78 +49,23 @@ public class LithographyMachineEntity extends BlockEntity {
     }
 
     @Override
-    public void onLoad() {
-        super.onLoad();
-        lazyItemHandler = LazyOptional.of(() -> itemHandler);
-    }
-
-    @Override
-    public void invalidateCaps() {
-        super.invalidateCaps();
-        lazyItemHandler.invalidate();
-    }
-
-    @Override
     protected void saveAdditional(CompoundTag tag) {
-        tag.put("inventory", itemHandler.serializeNBT());
-        tag.putInt("progress", progress);
-        tag.putInt("maxProgress", maxProgress);
         super.saveAdditional(tag);
+        tag.putInt("cores", cores);
     }
 
     @Override
     public void load(CompoundTag tag) {
-        itemHandler.deserializeNBT(tag.getCompound("inventory"));
-        progress = tag.getInt("progress");
-        maxProgress = tag.getInt("maxProgress");
         super.load(tag);
+        cores = tag.getInt("cores");
     }
 
     @Override
-    public <T> LazyOptional<T> getCapability(Capability<T> cap, @Nullable Direction side) {
-        if (cap == ForgeCapabilities.ITEM_HANDLER) {
-            return lazyItemHandler.cast();
-        }
-        return super.getCapability(cap, side);
-    }
+    protected boolean canProcess() {
+        ItemStack waferStack = this.itemHandler.getStackInSlot(0);
+        ItemStack blueprintStack = this.itemHandler.getStackInSlot(1);
+        ItemStack outputStack = this.itemHandler.getStackInSlot(2);
 
-    public ItemStackHandler getItemHandler() {
-        return itemHandler;
-    }
-
-    public ContainerData getData() {
-        return data;
-    }
-
-    public static <T extends BlockEntity> void tick(Level level, BlockPos pos, BlockState state, T be) {
-        if (level.isClientSide) {
-            return;
-        }
-
-        LithographyMachineEntity entity = (LithographyMachineEntity) be;
-        ItemStack waferStack = entity.itemHandler.getStackInSlot(0);
-        ItemStack blueprintStack = entity.itemHandler.getStackInSlot(1);
-
-        if (canStartProcessing(waferStack, blueprintStack)) {
-            if (entity.progress == 0) {
-                entity.maxProgress = getProcessingTime(blueprintStack);
-            }
-
-            entity.progress++;
-            if (entity.progress >= entity.maxProgress) {
-                processItem(entity, blueprintStack);
-                entity.progress = 0;
-                entity.maxProgress = 0;
-            }
-            entity.setChanged();
-        } else {
-            entity.progress = 0;
-            entity.maxProgress = 0;
-            entity.setChanged();
-        }
-    }
-
-    private static boolean canStartProcessing(ItemStack waferStack, ItemStack blueprintStack) {
         if (waferStack.getItem() != ModItems.SILICON_WAFER.get() || waferStack.getCount() < 1) {
             return false;
         }
@@ -135,37 +73,88 @@ public class LithographyMachineEntity extends BlockEntity {
             return false;
         }
 
-        int cores = getCoresFromBlueprint(blueprintStack);
-        if (cores == 0) {
+        int targetCores = getCoresFromBlueprint(blueprintStack);
+        if (targetCores == 0) {
             return false;
         }
 
         // 检查输出槽位是否有空间
-        ItemStack outputStack = getOutputStack(cores);
-        ItemStack currentOutput = entity.itemHandler.getStackInSlot(2);
-        if (currentOutput.isEmpty()) {
+        ItemStack resultStack = getOutputStack(targetCores);
+        if (outputStack.isEmpty()) {
             return true;
         }
-        if (currentOutput.getItem() == outputStack.getItem() && currentOutput.getCount() + outputStack.getCount() <= currentOutput.getMaxStackSize()) {
-            return true;
+        if (outputStack.getItem() != resultStack.getItem()) {
+            return false;
         }
-        return false;
+        return outputStack.getCount() + resultStack.getCount() <= outputStack.getMaxStackSize();
+    }
+
+    @Override
+    protected void processItem() {
+        int targetCores = getCoresFromBlueprint(this.itemHandler.getStackInSlot(1));
+        if (targetCores == 0) return;
+
+        // 消耗输入
+        this.itemHandler.extractItem(0, 1, false); // 消耗 1 个硅晶圆
+
+        // 产出输出
+        ItemStack outputStack = getOutputStack(targetCores);
+        this.itemHandler.insertItem(2, outputStack, false);
+    }
+
+    @Nullable
+    @Override
+    public AbstractContainerMenu createMenu(int id, Inventory inventory, Player player) {
+        return new LithographyMachineMenu(id, inventory, this, this.data);
+    }
+
+    public static <T extends BlockEntity> void tick(Level level, BlockPos pos, BlockState state, T be) {
+        if (level.isClientSide) {
+            return;
+        }
+
+        if (be instanceof LithographyMachineEntity entity) {
+            ItemStack blueprintStack = entity.itemHandler.getStackInSlot(1);
+            int targetCores = getCoresFromBlueprint(blueprintStack);
+
+            if (entity.canProcess()) {
+                if (entity.progress == 0) {
+                    entity.maxProgress = getProcessingTime(targetCores);
+                }
+
+                entity.progress++;
+                if (entity.progress >= entity.maxProgress) {
+                    entity.processItem();
+                    entity.progress = 0;
+                    entity.maxProgress = 0;
+                }
+                entity.setChanged();
+            } else {
+                entity.progress = 0;
+                entity.maxProgress = 0;
+                entity.setChanged();
+            }
+        }
     }
 
     private static int getCoresFromBlueprint(ItemStack blueprintStack) {
-        // TODO: 实际图纸系统需要更复杂的逻辑来确定核心数
-        // 暂时通过图纸的 NBT 或其他方式来模拟
+        // 假设图纸的 NBT 标签中存储了核心数
+        CompoundTag tag = blueprintStack.getTag();
+        if (tag != null && tag.contains("cores")) {
+            return tag.getInt("cores");
+        }
+        // 默认返回 1 核，或者可以根据图纸的 Item ID 来判断
+        // 鉴于目前没有实现图纸的 NBT 写入，我们暂时使用一个硬编码的逻辑
         // 假设图纸的名称决定了核心数，例如 "Blueprint (4-Core)"
         String name = blueprintStack.getHoverName().getString();
-        if (name.contains("1-Core")) return 1;
-        if (name.contains("2-Core")) return 2;
-        if (name.contains("3-Core")) return 3;
         if (name.contains("4-Core")) return 4;
+        if (name.contains("3-Core")) return 3;
+        if (name.contains("2-Core")) return 2;
+        if (name.contains("1-Core")) return 1;
         return 0;
     }
 
-    private static int getProcessingTime(ItemStack blueprintStack) {
-        int cores = getCoresFromBlueprint(blueprintStack);
+    private static int getProcessingTime(int cores) {
         // 10 minutes per core * 20 ticks/second * 60 seconds/minute = 12000 ticks per core
         return cores * 12000;
     }
@@ -178,17 +167,5 @@ public class LithographyMachineEntity extends BlockEntity {
             case 4 -> new ItemStack(ModItems.CHIP_4_CORE.get());
             default -> ItemStack.EMPTY;
         };
-    }
-
-    private static void processItem(LithographyMachineEntity entity, ItemStack blueprintStack) {
-        int cores = getCoresFromBlueprint(blueprintStack);
-        if (cores == 0) return;
-
-        // 消耗输入
-        entity.itemHandler.extractItem(0, 1, false); // 消耗 1 个硅晶圆
-
-        // 产出输出
-        ItemStack outputStack = getOutputStack(cores);
-        entity.itemHandler.insertItem(2, outputStack, false);
     }
 }
