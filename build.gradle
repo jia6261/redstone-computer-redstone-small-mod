@@ -1,10 +1,11 @@
 buildscript {
     repositories {
         maven { url = 'https://files.minecraftforge.net/maven/' }
+        maven { url = 'https://maven.createmod.net' }
         mavenCentral()
     }
     dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:6.0.13'
+        classpath 'net.minecraftforge.gradle:ForgeGradle:6.0.24' // Update ForgeGradle for 1.21 support // Update ForgeGradle for 1.21 support
     }
 }
 
@@ -14,7 +15,7 @@ apply plugin: 'maven-publish'
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(17)
+        languageVersion = JavaLanguageVersion.of(21)
     }
 }
 
@@ -23,6 +24,11 @@ group = 'com.jia6261.redstonecomputer'
 archivesBaseName = 'redstone_computer'
 
 // Minecraft version and Forge version
+repositories {
+    maven { url = 'https://maven.createmod.net' }
+    mavenCentral()
+}
+
 minecraft {
     // The target version of Minecraft to build for.
 
@@ -37,16 +43,16 @@ minecraft {
 dependencies {
     // Specify the version of Forge to use.
     // This is for Minecraft 1.20.1
-    minecraft 'net.minecraftforge:forge:1.20.1-47.2.0'
+   minecraft 'net.minecraftforge:forge:1.21.1-52.1.6' // Update Forge version for 1.21// Update Forge version for 1.21
     
     // Add Create Mod dependency (Placeholder version)
     // Note: The actual version must be compatible with 1.20.1 Forge.
     // We use a placeholder version for compilation.
-    compileOnly fg.deobf("com.simibubi.create:create:1.20.1-0.5.1.f")
+   compileOnly fg.deobf("com.simibubi.create:create:1.21.1-6.0.8") // Update Create Mod version for 1.21// Update Create Mod version for 1.21
     // Set the mapping channel and version globally for ForgeGradle 6
     // This is the correct way for 1.20.1+
     minecraft.mappingChannel = 'official'
-    minecraft.mappingVersion = '1.20.1'
+  minecraft.mappingVersion = '1.21.1' // Update mapping version // Update mapping version
 }
 
 // Configure the jar file name

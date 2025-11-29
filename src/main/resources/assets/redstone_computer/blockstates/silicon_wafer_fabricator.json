@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "facing=north": { "model": "redstone_computer:block/silicon_wafer_fabricator" },
+    "facing=south": { "model": "redstone_computer:block/silicon_wafer_fabricator", "y": 180 },
+    "facing=west": { "model": "redstone_computer:block/silicon_wafer_fabricator", "y": 270 },
+    "facing=east": { "model": "redstone_computer:block/silicon_wafer_fabricator", "y": 90 }
+  }
+}

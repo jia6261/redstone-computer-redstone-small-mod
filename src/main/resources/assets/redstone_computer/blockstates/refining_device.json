@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "facing=north": { "model": "redstone_computer:block/refining_device" },
+    "facing=south": { "model": "redstone_computer:block/refining_device", "y": 180 },
+    "facing=west": { "model": "redstone_computer:block/refining_device", "y": 270 },
+    "facing=east": { "model": "redstone_computer:block/refining_device", "y": 90 }
+  }
+}

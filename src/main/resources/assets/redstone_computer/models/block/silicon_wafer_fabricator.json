@@ -1,0 +1,8 @@
+{
+  "parent": "block/orientable",
+  "textures": {
+    "top": "redstone_computer:block/silicon_wafer_fabricator_top",
+    "front": "redstone_computer:block/silicon_wafer_fabricator_front",
+    "side": "redstone_computer:block/silicon_wafer_fabricator_side"
+  }
+}
